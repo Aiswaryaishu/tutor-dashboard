@@ -1,0 +1,204 @@
+/* src/index.css */
+@import "tailwindcss";
+
+/* ===========================
+   Brand tokens (plain CSS vars)
+   =========================== */
+:root {
+  --brand-50:  #E6FAF7;
+  --brand-300: #8EE6DF;
+  --brand-500: #1FB5AD;
+  --brand-600: #17928C;
+
+  --line: #EAECEE;
+  --card-radius: 12px;
+
+  /* layout gutters for custom shells if needed */
+  --gutter-xs: 16px;
+  --gutter-sm: 20px;
+  --gutter-md: 24px;  /* tablet default */
+  --gutter-lg: 32px;  /* desktop default */
+}
+
+/* =====================================================
+   Global: typography rendering & viewport behaviors
+   ===================================================== */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  background: #f9fafb; /* tailwind gray-50 */
+  color: #0f172a;      /* tailwind slate-900 */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: auto;
+  overflow-anchor: auto;
+  touch-action: pan-y;
+  overflow-x: hidden; /* avoid incidental horizontal scroll */
+  margin: 0;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+           env(safe-area-inset-bottom) env(safe-area-inset-left);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mobile-first base text size; tablet upscales slightly */
+@media (min-width: 768px) {
+  body { font-size: 1rem; /* 16px */ }
+}
+@media (min-width: 1024px) {
+  body { font-size: 1.0125rem; /* ~16.2px gentle upscale */ }
+}
+
+/* ==================================
+   Generic UI helpers (no @apply used)
+   ================================== */
+.card {
+  border: 1px solid var(--line);
+  border-radius: var(--card-radius);
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+/* Tablet: give cards a little more breathing space  */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .card { border-radius: calc(var(--card-radius) + 2px); }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: transform .12s ease, opacity .12s ease, background-color .12s ease;
+  cursor: pointer;
+}
+
+/* Tablet: slightly larger targets for iPad */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .btn { padding: 0.6rem 0.9rem; font-size: 0.9375rem; }
+}
+
+.btn-primary { background: var(--brand-500); color: #fff; }
+.btn-primary:hover { background: var(--brand-600); }
+
+/* Focus-visible for keyboard users (a11y) */
+.btn:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--brand-500);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
+/* Disable tap highlight flash on mobile */
+* { -webkit-tap-highlight-color: transparent; }
+
+/* ==================================================
+   Notice board vertical line (timeline-style accent)
+   ================================================== */
+.timeline { position: relative; }
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: #D9E3E7;
+}
+
+/* ==========================================
+   App wrapper height strategy / desktop tweak
+   ========================================== */
+#app-root { min-height: 100dvh; } /* mobile feel, safe on iOS */
+
+@media (min-width: 1024px) {
+  #app-root { min-height: auto !important; }
+}
+
+/* ==========================================================
+   Tablet (md: 768–1023px) targeted refinements / “tab view”
+   ========================================================== */
+
+/* Gutter system for custom shells if needed (optional) */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .shell {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--gutter-md);
+    padding-right: var(--gutter-md);
+    max-width: 1000px; /* keeps content comfy on iPad landscape */
+  }
+}
+
+/* Denser grid spacing on tablet for dashboards */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .grid-tight-md { row-gap: 20px; column-gap: 20px; }
+}
+
+/* Tighter header tools row on tablet */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .toolbar-md { gap: 10px; }
+}
+
+/* Card header text sizing for tablet (keeps hierarchy crisp) */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .h6-md { font-size: 0.95rem; font-weight: 600; }
+  .meta-md { font-size: 0.8rem; color: #475569; }
+}
+
+/* Avoid oversized shadows on iPad (looks heavy otherwise) */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .shadow-md-smooth { box-shadow: 0 1px 8px rgba(15, 36, 55, 0.08); }
+}
+
+/* Calendar-specific subtle scale on press (visual feedback only) */
+.calendar-day {
+  transition: transform .06s ease, background-color .12s ease;
+  will-change: transform;
+}
+.calendar-day:active {
+  transform: scale(0.98);
+}
+
+/* =================================================
+   Reduced motion / prefers-color-scheme foundations
+   ================================================= */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Dark-scheme baseline (non-empty to satisfy linters) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: light dark; /* ensures native controls adapt */
+    /* Optional subtle token tweak */
+    --line: #243241;
+  }
+  body { background: #0b1220; color: #e5e7eb; }
+  .card { background: #0f172a; border-color: #22303a; box-shadow: none; }
+}
+
+/* ==================================
+   Subtle scrollbar (non-essential)
+   ================================== */
+:root { scrollbar-gutter: stable both-edges; }
+* { scrollbar-width: thin; scrollbar-color: #C9D6DB transparent; }
+*::-webkit-scrollbar { height: 10px; width: 10px; }
+*::-webkit-scrollbar-thumb {
+  background-clip: padding-box;
+  border-radius: 20px;
+  background: #C9D6DB;
+}
+*::-webkit-scrollbar-track { background: transparent; }
