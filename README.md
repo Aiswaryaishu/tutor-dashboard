@@ -29,7 +29,8 @@ Built using React + Vite + TypeScript and Tailwind CSS v4, this project faithful
 ---
 # Assumptions made
 - The calender dates given in the snapshot were wrong (repeated). It is corrected in the project.
-
+-"Upcoming” and “Completed” sections were reversed in the provided design. On desktop, I aligned them logically, but on mobile, I kept them as per the original design.
+- The calendar now supports dynamic months.
 ---
 # Browser Compatibility
 - Google Chrome ver 90+ Fully supported
