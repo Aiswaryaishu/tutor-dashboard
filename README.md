@@ -41,5 +41,11 @@ Built using React + Vite + TypeScript and Tailwind CSS v4, this project faithful
 
 ---
 
+---
 
+## **Development Duration**
+
+**Total Development Time:** Approximately **5 hours**
+
+---
 
